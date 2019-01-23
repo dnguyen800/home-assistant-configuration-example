@@ -4,7 +4,7 @@ Here is a set of configuration files that represents my current [Home Assistant]
 
 [Home](home.md) | [Media](media.md) | [Rooms](rooms.md) | [Cameras](cameras.md) | [Comics](comics.md) | [System](system.md) | [Floor Plan](floorplan.md) 
 
-Animated gif showing UI
+![My Home Automation Setup](https://raw.githubusercontent.com/dnguyen800/home-assistant-configuration-example/master/images/home-assistant.gif)
 
 ## Home Assistant Hardware/Software Overview
 
@@ -13,4 +13,4 @@ Raspberry Pi 3B+ using Hass.io
 
 
 ## Credits
-- People ([ccostan](https://github.com/CCOSTAN/Home-AssistantConfig), [skavala](https://github.com/skalavala/smarthome)) who shared their Home Assistant configurations, which I borrowed heavily from.
+- People ([ccostan](https://github.com/CCOSTAN/Home-AssistantConfig), [skalavala](https://github.com/skalavala/smarthome)) who shared their Home Assistant configurations, which I borrowed heavily from.

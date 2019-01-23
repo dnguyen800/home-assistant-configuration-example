@@ -1,0 +1,960 @@
+name: My Home
+
+resources:
+  - url: /local/card-tools.js?v=0
+    type: js
+  - url: /local/custom-lovelace/compact-custom-header/compact-custom-header.js?v0
+    type: js
+  - url: https://unpkg.com/moment@2.23.0/moment.js
+    type: js
+  - url: /local/custom_ui/weather-card.js
+    type: js   
+  - url: /local/simple-thermostat.js?v=1
+    type: module
+  - url: /local/vertical-stack-in-card.js?v=v0.1.0
+    type: js    
+  - url: /local/calendar-card.js?v=1.2.2
+    type: module
+  - url: /local/list-card.js?v=v0.0.7
+    type: js    
+  - url: /local/custom-lovelace/swipe-card/swipe-card.js?v=1.2.1
+    type: module
+  - url: /local/slideshow-card.js
+    type: js
+  - url: /local/tracker-card.js?v=0.1.5
+    type: js
+  - url: /local/button-card.js
+    type: module   
+  - url: /local/mini-media-player-bundle.js?v=0.9.8
+    type: js
+  - url: /local/spotify-playlist-card.js?v=0
+    type: js 
+  - url: /local/quote-day-card.js?v=0
+    type: js
+  - url: /local/air-visual-card.js
+    type: js 
+  - url: /local/monster-card.js
+    type: js 
+  - url: /local/useful-markdown-card.js
+    type: js 
+  - url: /local/slider-entity-row.js
+    type: js 
+  - url: /local/layout-card.js?v=0
+    type: js       
+
+views:
+###############################################
+## Home
+###############################################
+
+  - title: Home 
+    id: home
+    panel: true
+    cards:
+      - type: custom:layout-card
+        layout: vertical    
+        cards:   
+          - type: custom:compact-custom-header
+            header: true
+            clock: voice            
+            options: false
+          - type: custom:quote-day-card               
+            entity: sensor.quote_of_the_day
+          - type: custom:calendar-card
+            showProgressBar: false
+            entities:
+              - calendar.holidays_in_united_states
+              - calendar.songkick_your_plans
+          - type: horizontal-stack
+            cards:
+              - type: conditional
+                conditions:
+                  - entity: binary_sensor.front_door
+                    state: "on"
+                card:                   
+                  - type: "custom:button-card"
+                    color_type: card
+                    name: 'Front Door'                    
+                    entity: binary_sensor.front_door
+                    color: rgb(244, 146, 61)   # Orange
+#                    color_off: rgb(114, 242, 82)
+#                    show_state: true  
+                    action: more_info                
+          - break
+          - type: custom:weather-card
+            entity_weather: weather.dark_sky
+            entity_sun: sun.sun
+          - type: custom:air-visual-card
+            air_pollution_level: sensor.us_air_pollution_level
+            air_quality_index: sensor.us_air_quality_index
+            main_pollutant: sensor.us_main_pollutant
+            temp: weather.dark_sky
+            city: San Francisco
+          - type: thermostat
+            entity: climate.ecobee
+            name: Downstairs
+          - break               
+          - type: picture-entity
+            entity: camera.traffic_map
+            image: https://www.google.com/maps/vt/data=G6MBDQj7DSv3lAtW1JFypHCVQpd1tnsl0J1Gaq7zGUJDsOF-IRGmC1p3S7WeDJrXZOHch-Dxeh_UOOC4uko4JUz3X1jq30CyDRVCvYC9PveMjzG9Mw7FrqCtYnW_96Y3gFcjVjAujLPJP0nJrZgU6MpT3s862eC9QhKbgMXRw2pIvAvI1ezxP-tZ7PHfjofgy2WjkcoeHaecd2yOyNeGppwfVycdJPzoZZhlIfllPqLFegiUGXIMCTAFUYB2_9D0oIk
+            show_name: false
+            show_state: false
+            
+# Media Players (only shows up when playing a video/music)
+          - type: conditional
+            conditions:
+              - entity: media_player.tv
+                state_not: "off"
+            card:
+              type: custom:mini-media-player
+              entity: media_player.tv
+              scroll_info: true
+              show_progress: false
+              hide_icon: true
+              artwork: full-cover 
+              idle_view: true
+              hide_volume: true    
+              background: "/local/images/tv.png"                              
+          - type: conditional
+            conditions:
+              - entity: media_player.music
+                state: "playing"
+            card:
+              type: custom:mini-media-player
+              entity: media_player.music
+              scroll_info: true
+              show_progress: true
+              hide_icon: true
+              artwork: cover
+              background: "/local/images/music.png"
+              hide_power: true
+#            hide_volume: true
+
+
+###############################################
+## Media
+###############################################
+
+  - title: Media
+    id: media
+    panel: true
+    cards:    
+      - type: custom:layout-card
+        layout: vertical    
+        cards:      
+          - type: custom:compact-custom-header
+            header: true
+            clock: voice            
+            options: false        
+          - type: "custom:button-card"
+            entity: input_select.menu
+            color_type: card
+            color_off: rgb(28, 128, 199)
+            action: service
+            service: 
+              domain: input_select
+              action: select_next 
+              data:
+                entity_id: input_select.menu
+            show_state: true
+            state:
+              - value: 'off'
+                color: var(--disabled-text-color)
+              - value: 'media center'
+                color: rgb(5, 147, 255)
+              - value: 'lights'
+                color: rgb(189, 255, 5)      
+
+          - type: conditional
+            conditions:
+              - entity: input_select.menu
+                state: "lights"
+            card:                   
+              type: horizontal-stack
+              cards:
+                - type: "custom:button-card"
+                  color_type: card
+                  name: 'Stairs'
+                  entity: group.stairs
+                  icon: mdi:stairs
+                  action: toggle                    
+                - type: "custom:button-card"
+                  color_type: card
+                  name: "Front Door"
+                  entity: light.front_door
+                  icon: mdi:door
+                  action: toggle                  
+                - type: "custom:button-card"
+                  name: "Dan's Room"
+                  color_type: card
+                  entity: light.dans_room
+                  icon: mdi:ceiling-light
+                  action: toggle                      
+                            
+          - type: conditional
+            conditions:
+              - entity: input_select.menu
+                state: "media center"
+            card:                   
+              type: horizontal-stack
+              cards:
+                - type: "custom:button-card"
+                  entity: media_player.av_receiver
+                  name: "Receiver"
+                  color_type: card
+                  color: rgb(223, 255, 97)
+                  show_state: true
+                  state: 
+                    - value: 'playing'
+                      color: rgb(223, 255, 97)       
+                    - value: 'on'
+                      color: rgb(223, 255, 97)                           
+                  icon: mdi:power                  
+                - type: "custom:button-card"
+                  color_type: card
+                  color: rgb(223, 255, 97)
+                  icon: mdi:volume-minus
+                  action: service
+                  service:
+                    domain: media_player
+                    action: volume_down
+                    data:
+                      entity_id: media_player.av_receiver
+                - type: "custom:button-card"
+                  color_type: card
+                  color: rgb(223, 255, 97)
+                  icon: mdi:volume-plus
+                  action: service
+                  service:
+                    domain: media_player
+                    action: volume_up
+                    data:
+                      entity_id: media_player.av_receiver
+                - type: "custom:button-card"
+                  name: TV
+                  size: 40%
+                  color_type: card
+                  entity: media_player.lg_webos_smart_tv
+                  color: rgb(223, 255, 97)
+                  icon: mdi:power
+                  show_state: true
+                  state:
+                    - value: 'playing'
+                      color: rgb(223, 255, 97)  
+                    - value: 'on'
+                      color: rgb(223, 255, 97)                             
+                      
+          - type: conditional
+            conditions:
+              - entity: input_select.menu
+                state: "media center"
+            card:                        
+              type: horizontal-stack
+              cards:   
+                - type: "custom:button-card"
+                  color_type: card
+                  name: TV
+                  icon: mdi:television
+                  action: service
+                  service:
+                    domain: media_player
+                    action: select_source
+                    data:
+                      entity_id: media_player.av_receiver 
+                      source: "tv"
+                  entity: sensor.av_receiver
+                  color_off: rgb(28, 128, 199)
+                  state:
+                    - value: 'tv'
+                      color: rgb(189, 255, 5)                       
+                - type: "custom:button-card"
+                  color_type: card
+                  name: Switch
+                  icon: mdi:nintendo-switch
+                  action: service
+                  service:
+                    domain: script
+                    action: toggle
+                    data:
+                      entity_id: script.activity_switch
+                  entity: sensor.av_receiver
+                  color_off: rgb(28, 128, 199)
+                  state:
+                    - value: 'Switch'
+                      color: rgb(189, 255, 5)                          
+                - type: "custom:button-card"
+                  color_type: card
+                  name: Xbox
+                  icon: mdi:xbox
+                  action: service
+                  service:
+                    domain: script
+                    action: toggle
+                    data:
+                      entity_id: script.activity_xboxone   
+                  entity: sensor.av_receiver
+                  color_off: rgb(28, 128, 199)
+                  state:
+                    - value: 'XboxOne'
+                      color: rgb(189, 255, 5)                            
+                - type: "custom:button-card"
+                  color_type: card
+                  icon: mdi:playstation
+                  name: PS4
+                  action: service
+                  service:
+                    domain: script
+                    action: toggle
+                    data:
+                      entity_id: script.activity_ps4  
+                  entity: sensor.av_receiver
+                  color_off: rgb(28, 128, 199)
+                  state:
+                    - value: "Playstation4"
+                      color: rgb(189, 255, 5)                                                      
+                - type: "custom:button-card"
+                  color_type: card
+                  name: PC
+                  icon: mdi:desktop-tower
+                  action: service
+                  service:
+                    domain: script
+                    action: toggle
+                    data:
+                      entity_id: script.activity_pc                         
+                  entity: sensor.av_receiver
+                  color_off: rgb(28, 128, 199)
+                  state:
+                    - value: 'PC'
+                      color: rgb(189, 255, 5)                          
+                             
+          - type: horizontal-stack
+            cards:
+              - type: conditional
+                conditions:
+                  - entity: media_player.music
+                    state_not: "off"
+                card:
+                  type: "custom:spotify-playlist-card"
+                  entity: sensor.playlists
+                  media_player: media_player.spotify
+                  columns: 3
+                  size: '160px'       
+                  show_name: false        
+                  show_title: false
+                  title: 'My Playlists'                                                                  
+          - break  
+          
+          - type: custom:mini-media-player
+            entity: media_player.tv
+            scroll_info: true
+            show_progress: false
+            hide_icon: true
+            artwork: full-cover             
+            hide_volume: true  
+            background: "/local/images/tv.png"            
+          - type: custom:mini-media-player
+            entity: media_player.av_receiver 
+            hide_controls: true
+            hide_volume: true
+            power_color: true
+            show_source: true
+            hide_icon: true
+            background: "/local/images/denon2.png"
+            idle_view: true   
+          - type: custom:mini-media-player
+            entity: media_player.music
+            scroll_info: true
+            show_progress: true            
+            hide_icon: true
+            artwork: cover
+            volume_stateless: true
+            background: "/local/images/music.png"
+            power_color: true
+
+
+###############################################
+## Rooms
+###############################################
+            
+  - title: Rooms
+    id: lights
+    panel: true
+    cards:
+      - type: custom:layout-card
+        layout: vertical
+        cards:        
+          - type: custom:compact-custom-header
+            header: true
+            clock: voice            
+            options: false    
+          - type: entities
+            show_header_toggle: false
+            entities: 
+              - type: section
+                label: Upstairs
+              - type: custom:slider-entity-row
+                entity: light.dans_room
+                toggle: true
+              - type: custom:slider-entity-row
+                entity: light.upstairs_hallway  
+                toggle: true            
+              - type: custom:slider-entity-row
+                entity: light.stairs
+                toggle: true            
+              - type: section
+                label: Downstairs
+              - type: custom:slider-entity-row
+                entity: light.front_door
+                toggle: true
+          - type: custom:monster-card
+            card:
+              type: entities
+              title: Fans
+              show_header_toggle: false
+            filter:
+              include:
+                - entity_id: fan.*
+          - break                     
+          - type: alarm-panel
+            entity: alarm_control_panel.alarm
+          - type: custom:monster-card
+            card:
+              type: entities
+              title: Locks
+              show_header_toggle: false
+            filter:
+              include:
+                - entity_id: lock.*                   
+          - type: custom:monster-card
+            card:
+              type: entities
+              title: Sensors
+              show_header_toggle: false
+            filter:
+              include:
+                - entity_id: "binary_sensor.*"  
+              exclude:
+                - entity_id: "*movement*"  
+                - entity_id: "*basement*"                  
+
+
+###############################################
+## Cameras
+###############################################
+                
+  - title: Cameras
+    panel: true
+    cards:
+      - type: custom:layout-card
+        layout: vertical    
+        cards:   
+          - type: custom:compact-custom-header
+            header: true
+            clock: voice            
+            options: false
+          - type: picture-entity
+            entity: camera.east_bay
+            show_state: false
+          - break
+          - type: picture-entity
+            entity: camera.lick_observatory
+            show_state: false
+        
+###############################################
+## Comics
+###############################################        
+
+  - title: Comics
+    id: comics
+    panel: true
+    cards:
+      - type: vertical-stack
+        cards:   
+          - type: custom:compact-custom-header
+            header: true
+            clock: voice            
+            options: false        
+          - type: horizontal-stack # row 1
+            cards:
+              - type: custom:useful-markdown-card
+                content: >
+                   ![awkward]([[ sensor.awkward_zombie.attributes.url ]])
+
+              - type: custom:useful-markdown-card
+                content: >
+                   ![lovenstein]([[ sensor.lovenstein.attributes.url ]])   
+          - type: horizontal-stack # row 2
+            cards:
+              - type: custom:useful-markdown-card
+                content: >
+                   ![penny]([[ sensor.penny_arcade.attributes.url ]])           
+
+                                  
+
+###############################################
+## System
+###############################################
+              
+  - title: System
+    panel: true
+    cards: 
+      - type: custom:layout-card
+        layout: vertical    
+        cards:                   
+          - type: vertical-stack      
+            cards:
+              - type: custom:compact-custom-header
+                header: true
+                clock: voice            
+                options: false            
+              - type: horizontal-stack
+                cards:
+                  - type: gauge
+                    title: Available Disk
+                    entity: sensor.disk_free_
+                    severity:
+                      red: 0
+                      green: 16
+                      yellow: 22  
+                  - type: gauge
+                    title: CPU Usage
+                    entity: sensor.processor_use
+                    min: 0
+                    max: 100
+                    severity:
+                      red: 70
+                      green: 0
+                      yellow: 40                    
+              - type: horizontal-stack
+                cards:   
+                  - type: gauge
+                    title: Disk Space Used
+                    entity: sensor.disk_use_percent_   
+                    min: 0
+                    max: 100
+                    severity:
+                      red: 80
+                      green: 0
+                      yellow: 50                    
+
+                  - type: gauge
+                    title: RAM Used
+                    entity: sensor.memory_use_percent
+                    min: 0
+                    max: 100
+                    severity:
+                      red: 70
+                      green: 0
+                      yellow: 40
+              - type: custom:tracker-card
+                title: Custom Cards
+                trackers:
+                - sensor.custom_card_tracker
+                - sensor.custom_component_tracker                             
+          - break      
+          
+          - type: vertical-stack      
+            cards:   
+              - type: horizontal-stack
+                cards:          
+                  - type: sensor
+                    entity: sensor.cpu_temperature
+                    unit: '°C'
+                    height: 70
+                  - type: sensor
+                    name: Download Speed
+                    unit: mbps
+                    entity: sensor.speedtest_download
+                    height: 100
+              - type: horizontal-stack
+                cards:     
+                  - type: sensor
+                    entity: sensor.gpu_temperature
+                    unit: '°C'
+                    height: 70                    
+                  - type: sensor
+                    name: Upload Speed
+                    entity: sensor.speedtest_upload
+                    unit: mbps
+                    height: 20
+                    
+
+              - type: entities
+                title: Host
+                show_header_toggle: false
+                entities:
+                  - sensor.last_boot                      
+                  - sensor.installed_ha_version  
+                  - sensor.newest_ha_version
+              - type: custom:monster-card
+                card:
+                  type: entities
+                  title: Automations
+                  show_header_toggle: false
+                filter:
+                  include:
+                    - entity_id: automation.media*
+                  
+                     
+#  - title: Test
+ #   panel: true
+#    cards: 
+#      - type: media-control
+#        entity: media_player.playstation_4
+#      - type: media-control
+#        entity: media_player.roku
+#      - type: media-control
+#        entity: media_player.bedroom_tv
+       
+
+###############################################
+## Floor Plan
+###############################################
+       
+  - title: Floorplan
+    panel: true
+    cards:
+      - type: picture-elements
+        image: /local/images/floorplan/floorplan.png
+        elements:
+### Scenes ###############
+          - type: image
+            tap_action: call-service
+            image: /local/images/floorplan/movie.png
+            service: scene.turn_on
+            service_data:
+              entity_id: scene.movie_theater
+            style:
+              top: 10%
+              left: 94%
+              width: 6%
+          - type: image
+            tap_action: call-service
+            image: /local/images/floorplan/reading.png
+            service: scene.turn_on
+            service_data:
+              entity_id: scene.reading
+            style:
+              top: 22%
+              left: 94%
+              width: 6%
+          - type: image
+            tap_action: call-service
+            image: /local/images/floorplan/all_off.png
+            service: scene.turn_on
+            service_data:
+              entity_id: scene.good_night
+            style:
+              top: 34%
+              left: 94%
+              width: 6%
+              
+          - type: image
+            tap_action: call-service
+            image: /local/images/floorplan/upstairs_lights.png
+            service: scene.turn_on
+            service_data:
+              entity_id: scene.upstairs_lights
+            style:
+              top: 54%
+              left: 94%
+              width: 6%
+          - type: image
+            tap_action: call-service
+            image: /local/images/floorplan/downstairs_lights.png
+            service: scene.turn_on
+            service_data:
+              entity_id: scene.downstairs_lights
+            style:
+              top: 64%
+              left: 94%
+              width: 6%
+              
+### Cameras ##############################
+          - type: image
+            entity: camera.garage
+            image: /local/images/floorplan/camera.png
+            style:
+              left: 38%
+              top: 82%   
+              width: 5%   
+### Motion Sensors ##############################
+              
+          - type: image
+            entity: binary_sensor.living_room_motion
+            image: /local/images/floorplan/motion-on.png
+            state_image:
+              "off": /local/images/floorplan/motion.png
+            style:
+              left: 73%
+              top: 70%  
+              width: 2.5% 
+              
+          - type: image
+            entity: binary_sensor.kitchen_motion_sensor
+            image: /local/images/floorplan/motion-on.png
+            state_image:
+              "off": /local/images/floorplan/motion.png
+            style:
+              left: 50%
+              top: 84%  
+              width: 2.5%
+
+          - type: image
+            entity: binary_sensor.closet_motion_sensor
+            image: /local/images/floorplan/motion-on.png
+            state_image:
+              "off": /local/images/floorplan/motion.png
+            style:
+              left: 56.5%
+              top: 40%  
+              width: 2.5%
+
+          - type: image
+            entity: binary_sensor.bathroom_motion_sensor
+            image: /local/images/floorplan/motion-on.png
+            state_image:
+              "off": /local/images/floorplan/motion.png
+            style:
+              left: 79%
+              top: 42%  
+              width: 2.5%
+          - type: image
+            entity: binary_sensor.stairway_motion_sensor
+            image: /local/images/floorplan/motion-on.png
+            state_image:
+              "off": /local/images/floorplan/motion.png
+            style:
+              left: 47%
+              top: 21%  
+              width: 2.5%
+          - type: image
+            entity: binary_sensor.hallway_motion_sensor
+            image: /local/images/floorplan/motion-on.png
+            state_image:
+              "off": /local/images/floorplan/motion.png
+            style:
+              left: 50%
+              top: 13%  
+              width: 2.5%
+
+              
+# Lights and Switches ###########################
+          - type: image
+            entity: light.dans_room
+
+            image: /local/images/floorplan/light_on.png
+            state_image:
+              "on": /local/images/floorplan/light_on.png
+              "off": /local/images/floorplan/light_off.png
+            tap_action: 
+              action: toggle              
+            hold_action:
+              action: more-info
+            style:
+              left: 25%
+              top: 40%   
+              width: 5% 
+            
+          - type: image
+            entity: light.tv
+            image: /local/images/floorplan/tv.png
+            state_filter:
+              "off": opacity(100%)             
+            style:
+              left: 75%
+              top: 60%
+              width: 15%
+          - type: image
+            entity: light.tv
+            image: /local/images/floorplan/power.png
+            tap_action:
+              action: toggle   
+            state_filter:
+              "off": opacity(100%)             
+            style:
+              left: 76%
+              top: 64%
+              width: 4%              
+          - type: image
+            entity: switch.dining_room
+            tap_action: 
+              action: toggle   
+            image: /local/images/floorplan/light_on.png
+            state_image:
+              "off": /local/images/floorplan/light_off.png
+            style:
+              left: 59.5%
+              top: 88.7%
+              width: 5%   
+          - type: image
+            entity: group.kitchen_lights
+            tap_action:
+              action: toggle   
+            image: /local/images/floorplan/light_on.png
+            state_image:
+              "off": /local/images/floorplan/light_off.png
+            style:
+              left: 59.5%
+              top: 64%
+              width: 5%  
+          - type: image
+            entity: light.bedroom
+            tap_action:
+              action: toggle               
+            image: /local/images/floorplan/light_on.png
+            state_image:
+              "off": /local/images/floorplan/light_off.png
+            style:
+              left: 75.5%
+              top: 25%
+              width: 5%                 
+          - type: image
+            entity: light.living_room
+            tap_action:
+              action: toggle               
+            image: /local/images/floorplan/light_on.png
+            state_image:
+              "off": /local/images/floorplan/light_off.png
+            style:
+              left: 76%
+              top: 73.5%
+              width: 5%   
+          - type: image
+            entity: light.stairway
+            tap_action:
+              action: toggle               
+            image: /local/images/floorplan/light_on.png
+            state_image:
+              "off": /local/images/floorplan/light_off.png
+            style:
+              left: 45.5%
+              top: 77%
+              width: 5%   
+          - type: image
+            entity: light.stairs
+            tap_action:
+              action: toggle               
+            image: /local/images/floorplan/light_on.png
+            state_image:
+              "off": /local/images/floorplan/light_off.png
+            style:
+              left: 47%
+              top: 30%
+              width: 5%                
+          - type: image
+            entity: switch.closet
+            tap_action:
+              action: toggle               
+            image: /local/images/floorplan/light_on.png
+            state_image:
+              "off": /local/images/floorplan/light_off.png
+            style:
+              left: 56.5%
+              top: 33.5%
+              width: 5%   
+          - type: image
+            entity: switch.bathroom
+            tap_action:
+              action: toggle               
+            image: /local/images/floorplan/light_on.png
+            state_image:
+              "off": /local/images/floorplan/light_off.png
+            style:
+              left: 75%
+              top: 42%
+              width: 5%    
+          - type: image
+            entity: light.upstairs_hallway
+            tap_action:
+              action: toggle   
+            image: /local/images/floorplan/light_on.png
+            state_image:
+              "off": /local/images/floorplan/light_off.png
+            style:
+              left: 43%
+              top: 12.5%
+              width: 5%                  
+   
+### Labels ############################
+          - type: state-label
+            entity: sensor.time
+            style:
+              left: 5%
+              top: 5%
+              font-weight: bold
+              font-size: x-large
+ 
+          - type: state-label
+            entity: sensor.dark_sky_temperature
+            style:
+              left: 5%
+              top: 8%
+              width: 6%
+              prefix: "Outdoor: "
+              suffix: "F"
+              font-weight: bold
+              font-size: x-large
+          - type: state-label
+            entity: sensor.indoor_temp
+            style:
+              left: 5%
+              top: 12%
+              width: 6%
+              prefix: "indoor: "
+              suffix: "F"
+              font-weight: bold
+              font-size: x-large              
+# Doors and Windows
+          - type: image
+            entity: binary_sensor.front_door
+            
+            image: /local/images/floorplan/front_door.png
+            state_image:
+              "off": /local/images/floorplan/front_door_closed.png
+              "on": /local/images/floorplan/front_door.png
+            style:
+              left: 83%
+              top: 92.4%
+              width: 0.8% 
+          - type: image
+            entity: binary_sensor.front_door
+            image: /local/images/floorplan/window.png
+            state_image:
+              "off": /local/images/floorplan/window_closed.png
+              "on": /local/images/floorplan/window.png
+            style:
+              left: 88.6%
+              top: 79.1%
+              width: 0.7%  
+          - type: image
+            entity: binary_sensor.front_door
+            image: /local/images/floorplan/window.png
+            state_image:
+              "off": /local/images/floorplan/window_closed.png
+              "on": /local/images/floorplan/window.png
+            style:
+              left: 88.6%
+              top: 71%
+              width: 0.7%  
+          - type: image
+            entity: binary_sensor.front_door
+            image: /local/images/floorplan/window.png
+            state_image:
+              "off": /local/images/floorplan/window_closed.png
+              "on": /local/images/floorplan/window.png
+            style:
+              left: 88.6%
+              top: 62.7%
+              width: 0.7%  
+          - type: image
+            entity: binary_sensor.front_door
+            image: /local/images/floorplan/garage_entry.png
+            state_image:
+              "off": /local/images/floorplan/garage_entry_closed.png
+              "on": /local/images/floorplan/garage_entry.png
+            style:
+              left: 42.4%
+              top: 65.7%
+              width: 0.8%                

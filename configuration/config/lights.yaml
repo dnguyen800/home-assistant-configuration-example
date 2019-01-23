@@ -1,0 +1,43 @@
+# Lights
+
+# Note: Philips Hue light bulbs are not included here as they are automatically discovered in Home Assistant/Hue Bridge integration
+  
+- platform: mqtt
+  name: "Upstairs Hallway"  
+  command_topic: "smartthings/Upstairs Hallway/switch/cmd"
+  brightness_command_topic: "smartthings/Upstairs Hallway/level/cmd" 
+  state_topic: "smartthings/Upstairs Hallway/switch/state"
+  brightness_state_topic: "smartthings/Upstairs Hallway/level/state"
+  brightness_scale: 100
+  payload_on: "on"
+  payload_off: "off"
+  
+- platform: mqtt
+  name: "Stairs"  
+  command_topic: "smartthings/Stairs/switch/cmd"
+  brightness_command_topic: "smartthings/Stairs/level/cmd" 
+  state_topic: "smartthings/Stairs/switch/state"
+  brightness_state_topic: "smartthings/Stairs/level/state"
+  brightness_scale: 100
+  payload_on: "on"
+  payload_off: "off"  
+  
+- platform: mqtt
+  name: "Front Door"  
+  command_topic: "smartthings/Front Door/switch/cmd"
+  brightness_command_topic: "smartthings/Front Door/level/cmd" 
+  state_topic: "smartthings/Front Door/switch/state"
+  brightness_state_topic: "smartthings/Front Door/level/state"
+  brightness_scale: 100  
+  payload_on: "on"
+  payload_off: "off"
+  
+- platform: mqtt
+  name: "Dan's Room"  
+  command_topic: "smartthings/Dan's Room/switch/cmd"
+  brightness_command_topic: "smartthings/Dan's Room/level/cmd"
+  state_topic: "smartthings/Dan's Room/switch/state"
+  brightness_state_topic: "smartthings/Dan's Room/level/state"
+  brightness_scale: 100
+  payload_on: "on"
+  payload_off: "off"

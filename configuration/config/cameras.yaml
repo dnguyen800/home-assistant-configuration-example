@@ -1,0 +1,18 @@
+
+  
+###############################################
+### Virtual Cameras
+###############################################   
+- platform: generic
+  name: East Bay
+  still_image_url: http://static.lawrencehallofscience.org/scienceview/scienceview.berkeley.edu/html/view/view_assets/images/newview.jpg
+- platform: generic
+  name: Lick Observatory
+  still_image_url: http://mtham.ucolick.org/hamcam/Cam2.ts.JPG  
+
+
+- platform: generic
+  name: "Traffic Map"
+  #Do a google search of <city name> traffic and copy the image URL
+  still_image_url: https://www.google.com/maps/vt/data=CNp4QQzRCAmQdyFxOXkaEjA_6Q5A52PHNes2DexpOgOSD0NEl5sS7OQLGUUtr7KMhKadyERrAt6QWQ80SzrPQCljE61S6cWWcJZoyR7V2vTT1rTUi-Syij0-GEgrZ-PHK6sVYNpe-IEn7vb7F8pt7nGRntZxpHNrUkrQuxXLCtKXllz5eyFsiPnjRJd7M1c7THErXfbot5yaop1XBo1ScOGyMhd6P3oqYlHWklGi_Cd9S6mmhjyNFF4bU-tpUtAmx60
+  scan_interval: 2500 

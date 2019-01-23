@@ -1,0 +1,277 @@
+###############################################
+### Automations ###############################
+###############################################
+
+# Some examples of Home Assistant automations. In some configurations, I use
+# SmartThings and WebCoRE to handle automations, so I wouldn't use all of
+# these automations.
+
+# Sidenote: I couldn't get OR conditions to work, so I duplicated some automations.
+
+###############################################    
+## Media automations 
+###############################################
+
+- alias: "Media - Turn on receiver if TV is on"
+  trigger:
+    platform: state
+    entity_id: media_player.lg_webos_smart_tv
+    from: "off"
+  action:
+    service: media_player.turn_on
+    data:
+      entity_id: media_player.av_receiver
+ 
+## Videogame consoles
+- alias: Media - Turn on TV from Xbox One
+  trigger:
+    - platform: state
+      entity_id: media_player.xbox_one
+      from: 'off'
+  action:
+    - service: script.toggle
+      entity_id: script.activity_xboxone     
+      
+- alias: Media - Turn on TV from PS4
+  trigger:
+    - platform: state
+      entity_id: media_player.playstation_4
+      from: 'off'
+  action:
+    - service: script.toggle
+      entity_id: script.activity_ps4    
+               
+
+###############################################
+## Voice Notifications
+###############################################
+
+- alias: Voice - Door is open, announce eveery 5 minutes
+  initial_state: true
+  trigger:
+    - platform: time
+      minutes: '/5'
+      seconds: 0
+  condition:
+    - condition: state
+      entity_id: binary_sensor.front_door
+      state: 'open'
+  action:
+    - service: tts.google_say
+      entity_id: group.google_home
+      data:
+        message: "Front door is still open"         
+        cache: true
+
+- alias: Voice - Garage is open, announce every 5 minutes
+  initial_state: true
+  trigger:
+    - platform: time
+      minutes: '/5'
+      seconds: 0
+  condition:
+    - condition: state
+      entity_id: cover.garage_door_opener
+      state: 'open'
+  action:
+    - service: tts.google_say
+      entity_id: group.google_home
+      data:
+        message: "Garage door is still open"         
+        cache: true
+
+- alias: Voice - Garage opened
+  initial_state: true
+  trigger:
+    - platform: state
+      entity_id: cover.garage_door_opener
+      to: 'open'
+  action:
+    - service: tts.google_say
+      entity_id: group.google_home
+      data:
+        message: "Garage door opened"         
+        cache: true
+        
+- alias: Voice - Someone at front door
+  initial_state: true
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.front_door_camera_motion 
+      to: 'on'
+  action:
+    - service: tts.google_say
+      entity_id: media_player.dans_room_speaker
+      data:
+        message: "Someone is at the front door."         
+        cache: true
+
+        
+###############################################
+## Media Lighting
+###############################################
+      
+## TV lighting when playing/paused 
+- alias: "Media - Turn on lights when media player stopped"
+  trigger:
+    - platform: state
+      entity_id: media_player.tv
+      to: 'idle'
+    - platform: state
+      entity_id: media_player.tv
+      to: 'off'
+    - platform: state
+      entity_id: media_player.tv
+      to: 'paused'
+  condition:
+    condition: sun
+    after: sunset
+    after_offset: "-02:30:00"
+  action:
+      service: scene.turn_on
+      entity_id: scene.reading
+
+- alias: "Media - Dim lights when media player is playing"
+  trigger:
+    - platform: state
+      entity_id: media_player.tv
+      to: 'playing'
+      from: 'idle' 
+    - platform: state
+      entity_id: media_player.tv
+      to: 'unknown'
+  condition:
+    condition: sun
+    after: sunset
+    after_offset: "-02:30:00" 
+  action:
+      service: scene.turn_on
+      entity_id: scene.movie_theater      
+      
+      
+# Media When AV receiver set to xxx input, turn on TV lighting
+#- alias: "Media - AV Receiver to Switch Input"
+#  trigger:
+#    - platform: template
+#      value_template: "{{ is_state_attr('media_player.av_receiver', 'source', 'Switch') }}"
+#  condition:
+#    condition: sun
+#    after: sunset
+#    after_offset: "-02:30:00"
+#  action:
+#      service: scene.turn_on
+#      entity_id: scene.movie_theater
+      
+
+
+# When AV receiver is turned off, turn off TV lighting
+#- alias: "Media - AV Receiver to Switch Input"
+#  trigger:
+#    - platform: template
+#      value_template: "{{ is_state('media_player.av_receiver', 'off') }}"
+#  condition:
+#   condition: sun
+#    after: sunset
+#    after_offset: "-02:30:00"
+#  action:
+#      service: scene.turn_on
+#      entity_id: scene.reading     
+      
+      
+#- alias: 'Set Scene - Lights Off'
+#  trigger:
+#    platform: state
+#    entity_id: input_select.scenes
+#    to: 'off'
+#  action:
+#    service: light.turn_off
+#    data:
+#      entity_id: group.all_lights     
+#      volume_level: '{{  states.input_select.scenes.state  }}'
+
+
+###############################################
+## Geolocation-based Lighting
+###############################################
+
+- alias: Light - Turn on lights if I'm at home
+  trigger:
+    platform: sun
+    event: sunset
+    offset: '-02:30:00'
+  condition:
+    - condition: state
+      entity_id: device_tracker.dan
+      state: 'home'
+  action:
+    - service: light.turn_on
+      entity_id: light.bedroom 
+     
+- alias: Light - Turn off Dan's room lights if I leave
+  trigger:
+    - entity_id: device_tracker.dan
+      platform: state
+      to: 'not_home'
+  action:
+    service: light.turn_off
+    entity_id: light.bedroom 
+                 
+- alias: Light - Turn on lights when I arrive home (after sunset)
+  trigger:
+    - platform: state
+      entity_id: device_tracker.dan   
+      to: 'home'  
+  condition:
+    - condition: sun 
+      after: sunset
+      after_offset: "-02:30:00"
+  action:
+    - service: homeassistant.turn_on
+      entity_id: light.living_room
+    - service: homeassistant.turn_on
+      entity_id: light.bedroom 
+      
+- alias: Light - Turn on when I arrive home (before sunrise)
+  trigger:
+    - platform: state
+      entity_id: device_tracker.dan
+      to: 'home'  
+  condition:
+    - condition: sun 
+      before: sunrise
+  action:
+    - service: homeassistant.turn_on
+      entity_id: light.living_room
+    - service: homeassistant.turn_on
+      entity_id: light.bedroom 
+      
+      
+
+###############################################
+## System Automations
+###############################################
+
+- alias: "Delayed Start Homekit"
+  trigger:
+    - platform: homeassistant
+      event: start
+  action:
+    - delay: 00:05:00
+    - service: homekit.start    
+
+- alias: "Reboot Home Assistant server"
+  trigger: 
+    platform: time
+    at: "02:00:00"  
+  condition:
+    condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    - sun    
+  action:
+    - service: hassio.host_reboot

@@ -1,0 +1,111 @@
+# SENSORS
+
+- platform: folder
+  folder: /config/www/images/slideshow
+
+
+- platform: webcomic
+  name: "Awkward Zombie"
+  url: "http://awkwardzombie.com/"
+
+- platform: webcomic
+  name: "Penny Arcade"
+  url: "https://www.penny-arcade.com/comic"
+
+- platform: webcomic
+  name: "Lovenstein"
+  url: "http://www.mrlovenstein.com/"
+
+- platform: airvisual
+  api_key: !secret airvisual_key
+  monitored_conditions:
+    - us
+  country: usa
+  state: california
+  city: San Francisco
+
+- platform: spotify-playlist
+  name: "Playlists"
+  client_id: !secret spotify_id
+  client_secret: !secret spotify_secret
+
+#- platform: google_wifi
+- platform: yr  
+
+- platform: template
+  sensors:
+    av_receiver:
+      friendly_name: "AV Receiver"
+      value_template: "{{ states.media_player.av_receiver.attributes.source }}"
+    tv:
+      friendly_name: "TV"
+      value_template: "{{ states.media_player.lg_webos_smart_tv.attributes.source }}"
+
+
+
+############################
+### RSS Feed
+############################
+- platform: feedparser
+  name: Quote of the Day
+  feed_url: 'https://www.brainyquote.com/link/quotebr.rss'
+  date_format: '%a, %b %d %I:%M %p'
+  
+ 
+###############################################
+### Internet
+###############################################
+
+- platform: speedtest
+  monitored_conditions:
+    - download
+    - upload
+    
+    
+###############################################
+### System 
+###############################################
+
+# - platform: cpuspeed
+
+- platform: command_line
+  name: GPU Temperature
+  command: "/opt/vc/bin/vcgencmd measure_temp"
+#  unit_of_measurement: "°C"
+#  value_template: '{{ value | replace("temp=", "") | replace("''C", "") }}' 
+  value_template: '{{ value | replace("temp=", "") | replace("''C", "") | round(1) }}' 
+  
+- platform: command_line
+  name: CPU Temperature
+  command: "cat /sys/class/thermal/thermal_zone0/temp"
+  value_template: '{{ value | multiply(0.001) | round(1) }}'
+#  value_template: '{{ int(value) | multiply(0.001) | subtract(32) | multiply(0.5555556) | round(1) }}'
+  
+- platform: time_date
+  display_options:
+    - 'date_time'
+    - 'time'
+
+- platform: systemmonitor
+  resources:
+    - type: memory_use_percent 
+    - type: memory_free
+    - type: disk_use_percent
+      arg: /
+    - type: disk_free
+      arg: /
+    - type: processor_use
+    - type: last_boot
+      
+- platform: version
+  name: Installed HA version
+  
+# Version and Availability
+- platform: rest
+  name: "Newest HA Version"
+  resource: https://pypi.python.org/pypi/homeassistant/json
+  value_template: '{{ value_json.info.version }}'
+  scan_interval: 3600
+
+
+    

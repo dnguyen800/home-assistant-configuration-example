@@ -1,0 +1,136 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret latitude
+  longitude: !secret longitude
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 20
+  # metric for Metric, imperial for Imperial
+  unit_system: imperial
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: America/Los_Angeles
+  # Customization file
+  customize: !include customize.yaml
+  packages: !include_dir_named packages
+  
+recorder:
+  purge_keep_days: 4
+  
+lovelace:
+  mode: yaml  
+  
+# Necessary for LG TV to remotely turn on
+wake_on_lan:
+
+logger:
+  default: error
+
+# Enables the frontend
+frontend:
+  javascript_version: latest    # Enables the frontend and latest version of UI
+
+# Enables configuration UI
+config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+ http:
+   ssl_certificate: /ssl/fullchain.pem
+   ssl_key: /ssl/privkey.pem
+#   base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+#logbook:
+
+# Enables a map showing the location of tracked devices
+#map:
+
+# Track the sun
+sun:
+
+
+sensor: !include config/sensors.yaml
+scene: !include config/scenes.yaml
+light: !include config/lights.yaml
+media_player: !include config/media_players.yaml
+switch: !include config/switches.yaml
+camera: !include config/cameras.yaml
+binary_sensor: !include config/binary_sensors.yaml
+group: !include config/groups.yaml
+automation: !include config/automations.yaml
+script: !include config/scripts.yaml
+
+
+weather:
+  - platform: darksky
+    api_key: !secret darksky_key
+    mode: daily
+     
+custom_updater:
+  track:
+    - cards
+    - components
+  card_urls:
+    - https://raw.githubusercontent.com/kalkih/mini-media-player/master/tracker.json
+    - https://raw.githubusercontent.com/dnguyen800/Quote-of-the-Day-Card/master/tracker.json
+    - https://raw.githubusercontent.com/bramkragten/custom-ui/master/updater.json
+    - https://raw.githubusercontent.com/nervetattoo/simple-thermostat/allow-updates/tracker.json
+
+    
+# Text to speech
+tts:
+  - platform: google
+    cache: true
+    cache_dir: /tmp/tts
+    time_memory: 5000
+
+    
+# For Google Calendar
+google:
+  client_id: !secret google_client_id
+  client_secret: !secret google_client_secret
+      
+    
+# Cloud
+cloud:
+
+
+alarm_control_panel:
+  - platform: demo
+lock:
+  - platform: demo 
+cover:
+  - platform: demo
+fan:
+  - platform: demo
+climate:
+  - platform: demo
+ 
+ 
+##################################
+# CUSTOM COMPONENTS
+#################################
+
+input_select:
+  menu:
+    options:
+      - media center
+      - lights

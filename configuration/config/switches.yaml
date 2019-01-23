@@ -1,0 +1,11 @@
+# Switch
+
+      
+# For HDMI-CEC power status of a TV
+#- platform: command_line
+#  switches:
+##    tv:
+ #     command_on: "echo 'on 0' | cec-client -s"
+ #     command_off: "echo 'standby 0' | cec-client -s"
+ #     command_state: "echo 'pow 0' | cec-client -s |grep 'power status:'"
+ #     value_template: '{{ value == "power status: on" }}'

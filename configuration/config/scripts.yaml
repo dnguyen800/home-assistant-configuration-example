@@ -1,0 +1,137 @@
+###################################
+### scripts.yaml
+###################################
+
+
+     
+power_xboxone:
+  sequence: 
+    - service: media_player.toggle
+      entity_id: media_player.xbox_one 
+ 
+      
+power_av_receiver:      
+  sequence: 
+    - service: media_player.toggle
+      entity_id: media_player.av_receiver
+
+input_ps4:
+  sequence:
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.lg_webos_smart_tv
+        source: 'hdmi 2'     
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.av_receiver
+        source: "Playstation4"
+        
+input_xboxone:
+  sequence:
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.lg_webos_smart_tv
+        source: 'hdmi 2'
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.av_receiver
+        source: "XboxOne"
+
+input_switch:
+  sequence:
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.lg_webos_smart_tv
+        source: 'hdmi 2'
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.av_receiver
+        source: Switch
+                         
+input_pc:
+  sequence:
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.lg_webos_smart_tv
+        source: 'hdmi 2'
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.av_receiver
+        source: PC        
+       
+activity_ps4:
+  sequence:
+    - service: media_player.turn_on
+      data:
+        entity_id: media_player.lg_webos_smart_tv
+    - delay: 00:00:02  
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.lg_webos_smart_tv
+        source: 'hdmi 2'     
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.av_receiver
+        source: "Playstation4"
+        
+activity_xboxone:
+  sequence:
+    - service: media_player.turn_on
+      data:
+        entity_id: media_player.lg_webos_smart_tv
+    - delay: 00:00:02  
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.lg_webos_smart_tv
+        source: 'hdmi 2'
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.av_receiver
+        source: "XboxOne"
+    - service: media_player.turn_on
+      data:
+        entity_id: media_player.xbox_one
+    
+        
+activity_switch:
+  sequence:
+    - service: media_player.turn_on
+      data:
+        entity_id: media_player.lg_webos_smart_tv
+    - delay: 00:00:02  
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.lg_webos_smart_tv
+        source: 'hdmi 2'
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.av_receiver
+        source: Switch
+        
+                   
+activity_pc:
+  sequence:
+    - service: media_player.turn_on
+      data:
+        entity_id: media_player.lg_webos_smart_tv
+    - delay: 00:00:02  
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.lg_webos_smart_tv
+        source: 'hdmi 2'
+    - service: media_player.select_source
+      data:
+        entity_id: media_player.av_receiver
+        source: PC
+        
+av_volume_up:
+  sequence:
+    - service: media_player.volume_up
+      data:
+        entity_id: media_player.av_receiver
+        
+av_volume_down:
+  sequence:
+    - service: media_player.volume_down
+      data:
+        entity_id: media_player.av_receiver

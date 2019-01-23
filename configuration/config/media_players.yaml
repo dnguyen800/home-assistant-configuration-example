@@ -1,0 +1,66 @@
+
+- platform: firetv
+  name: Fire TV Stick
+  host: 192.168.86.240
+  adbkey: "/config/android/adbkey"
+
+
+- platform: plex
+  entity_namespace: 'plex'
+  remove_unavailable_clients: true
+  client_remove_interval: 600  
+#  use_episode_art: true
+  
+- platform: webostv  
+  host: 192.168.86.106  
+  turn_on_action:
+    service: wake_on_lan.send_magic_packet
+    data:
+      mac: !secret lg_mac_address
+  
+- platform: spotify
+  client_id: !secret spotify_client_id
+  client_secret: !secret spotify_client_secret  
+  
+- platform: onkyo
+  host: 192.168.86.31
+  name: AV Receiver
+  sources:
+    dvd: 'Playstation4'
+    video2: 'XboxOne'
+    strm-box: 'PC'
+    game: 'Switch'
+    hdmi-5: 'HDMI5'
+    hdmi-6: 'HDMI6'   
+ 
+- platform: xboxone
+  device: !secret xbox_device_id
+  name: Xbox One
+  
+- platform: ps4
+  host: http://192.168.86.32:3031 # IP of Home Assistant
+  ps4_ip: 192.168.86.107 #Wired IP address of PS4
+  name: PlayStation 4
+  local_store: games
+    
+- platform: universal
+  name: TV
+  children:
+    - media_player.playstation_4
+    - media_player.xbox_one
+    - media_player.lg_webos_smart_tv
+    
+      
+- platform: universal
+  name: Music
+  children:
+    - media_player.dons_house
+    - media_player.pioneer_receiver
+    - media_player.downstairs_2
+    - media_player.downstairs
+    - media_player.dans_room_speaker
+    - media_player.dans_room_speaker_2
+    - media_player.living_room_speaker
+    - media_player.dons_room_speaker
+    - media_player.kitchen_speaker
+    - media_player.spotify

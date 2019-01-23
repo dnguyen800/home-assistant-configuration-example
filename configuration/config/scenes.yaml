@@ -1,0 +1,23 @@
+### scenes.yaml #####################################
+###################################
+
+- name: Reading
+  entities:
+      light.living_room:
+          state: on
+          transition: 2
+          brightness_pct: 100
+      light.tv:
+          state: off
+          transition: 2
+- name: Movie Theater
+  entities:
+      light.living_room:
+          state: on
+          transition: 2
+          brightness_pct: 20
+      light.tv:
+          state: on
+          transition: 2
+          brightness_pct: 70
+

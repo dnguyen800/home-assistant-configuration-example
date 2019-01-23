@@ -1,0 +1,42 @@
+
+- platform: demo
+
+
+
+### Presence Sensor
+- platform: mqtt
+  name: "Dan"
+  state_topic: "smartthings/Dan Nguyen's Android/presence/state"
+  payload_on: "present"     #This is case sensitive!
+  payload_off: "away"    
+  device_class: presence
+  retain: true  
+
+### Doors
+
+- platform: mqtt
+  name: "Front Door"
+  state_topic: "smartthings/Front Door/contact/state"
+  payload_on: "open"     #This is case sensitive!
+  payload_off: "closed"    
+  device_class: door
+  retain: true     
+
+
+### Motion
+
+- platform: mqtt
+  name: "Living Room Motion"
+  state_topic: "smartthings/Living Room/motion/state"
+  payload_on: "active"     #This is case sensitive!
+  payload_off: "inactive"    
+  device_class: motion
+  retain: true     
+  
+- platform: mqtt
+  name: "Stairs Motion"
+  state_topic: "smartthings/Stairs/motion/state"
+  payload_on: "active"     #This is case sensitive!
+  payload_off: "inactive"    
+  device_class: motion
+  retain: true   

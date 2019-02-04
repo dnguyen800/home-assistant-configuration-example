@@ -9,7 +9,30 @@ Here is a set of configuration files that represents my current [Home Assistant]
 ## Home Assistant Hardware/Software Overview
 
 Home Assistant 0.84.5
-Raspberry Pi 3B+ using Hass.io
+Raspberry Pi 3B+ using Hass.io, HassOS 1.13
+Sandisk High Endurance 32GB micro SD card
+APC Back-UPS 125 VA 75 Watts 3 Outlets UPS, BGE90M-CA
+
+Samsung SmartThings v2 Hub
+
+GoControl HUSBZB-1 USB Hub
+
+###### Home Assistant Components
+
+
+
+###### Hass.io Addons I use on various (depending on setup)
+
+Samba
+SSH
+Amazon Button
+Plex Media Server
+MQTT
+
+SmartBridge
+
+Playstation4
+XboxOne
 
 
 ## Credits

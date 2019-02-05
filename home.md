@@ -5,6 +5,8 @@
 ![Home View](https://github.com/dnguyen800/home-assistant-configuration-example/blob/master/images/home.PNG?raw=true)
 
 ## Components in this View
+Note: I set 'panel: true' to use the entire width of the screen.
+
 0) **Lovelace Layout Card** - Backend card that provides more control in how to organize your Lovelace cards in a readable format, versus the previous method of using vertical and horizontal stacks. You define the columns and choose where to insert breaks, thus maximizing screen space | [My Config](https://github.com/dnguyen800/home-assistant-configuration-example/blob/7a63a37ee0b22a8af947cab6a3688eba5ad6efe3/configuration/ui-lovelace.yaml#L50-L60) | [Github](https://github.com/thomasloven/lovelace-layout-card) |
 
 1) **Compact Custom Header** - Reduces the height of the original HA header, saving precious space on small tablets like the Fire HD8. Also adds a clock. | [My Config](https://github.com/dnguyen800/home-assistant-configuration-example/blob/7a63a37ee0b22a8af947cab6a3688eba5ad6efe3/configuration/ui-lovelace.yaml#L50-L62) | [Github](https://github.com/maykar/compact-custom-header/) |

@@ -1,6 +1,7 @@
 # Rooms View
 
-[Home](home.md) | [Media](media.md) | [Rooms](rooms.md) | [Cameras](cameras.md) | [Comics](comics.md) | [System](system.md) | [Floor Plan](floorplan.md) 
+[Readme](README.md) |
+[Home View](home.md) |  [Media](media.md) | [**Rooms**](rooms.md) | [Cameras](cameras.md) | [Comics](comics.md) | [System](system.md) | [Floor Plan](floorplan.md) 
 
 ![Rooms View](https://github.com/dnguyen800/home-assistant-configuration-example/blob/master/images/rooms.png?raw=true)
 

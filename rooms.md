@@ -12,6 +12,7 @@
 
 2) **Lights** - Uses standard Lovelace Entities card to display lights. | [My Config](https://github.com/dnguyen800/home-assistant-configuration-example/blob/7a63a37ee0b22a8af947cab6a3688eba5ad6efe3/configuration/ui-lovelace.yaml#L391-L409) |
     * **Slider Entity Row** adds a brightness slider to light entities. | [My Config](https://github.com/dnguyen800/home-assistant-configuration-example/blob/7a63a37ee0b22a8af947cab6a3688eba5ad6efe3/configuration/ui-lovelace.yaml#L396-L409) | [Github](https://github.com/thomasloven/lovelace-slider-entity-row) |
+    * I use SmartThings to control my Zigbee light bulbs, and so I setup **MQTT lights** in this example. I had to setup the Mosquitto broker Hass.io add-on, SmartBridge Hass.io add-on, the SmartApp and SmartThings device. BUT, as of Home Assistant version 0.87, SmartThings integration is built in andyou no longer have to do this! I'm glad I didn't write an updated tutorial for the old method... | [My Config](https://github.com/dnguyen800/home-assistant-configuration-example/blob/c464015b67898ab87d38762f3f4858ecddc3ea87/configuration/config/lights.yaml#L5-L43) |
 
 3) **Alarm Panel** - I used a demo alarm panel in this example. But you can use an MQTT alarm panel if your alarm is within SmartThings. | [My Config](https://github.com/dnguyen800/home-assistant-configuration-example/blob/7a63a37ee0b22a8af947cab6a3688eba5ad6efe3/configuration/ui-lovelace.yaml#L419-L420) | [HA Component](https://www.home-assistant.io/components/demo/) |
 

@@ -4,6 +4,8 @@ Here is a set of configuration files that represents my current [Home Assistant]
 
 NOTE: To use this UI properly, you will need to enable the Lovelace YAML mode in your configuration.yaml and create the ui-lovelace.yaml file. See instructions on the [Home Assistant site](https://www.home-assistant.io/lovelace/yaml-mode/). It is a lot more work (and pain), but you can customize it to your liking.
 
+SECOND NOTE: This configuration was created in February 2019 with Home Assistant 0.84.5 and old versions of custom Lovelace cards. There have been many breaking changes to Home Assistant components and cards since then and this configuration example may not work properly with the latest version of Home Assistant without a few configuration changes. It is still a good learning resource though.
+
 [**Readme**](README.md) |
 [Home View](home.md) |  [Media](media.md) | [Rooms](rooms.md) | [Cameras](cameras.md) | [Comics](comics.md) | [System](system.md) | [Floor Plan](floorplan.md) 
 

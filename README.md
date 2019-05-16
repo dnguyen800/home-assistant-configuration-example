@@ -2,9 +2,9 @@
 
 Here is a set of configuration files that represents my current [Home Assistant](https://home-assistant.io) instance. If you have seen my video demonstration on [Youtube](https://www.youtube.com/watch?v=Dw4JFLhTVN8), I will explain how I achieved the current look of the UI, including the Lovelace cards, custom components, and Hass.io addons I used. Feel free to send any questions to dwinnnspeaks@gmail.com or visit my home automation website @ [dwinnn.com](https://dwinnn.com).
 
-NOTE: To use this UI properly, you will need to enable the Lovelace YAML mode in your configuration.yaml and create the ui-lovelace.yaml file. See instructions on the [Home Assistant site](https://www.home-assistant.io/lovelace/yaml-mode/). It is a lot more work (and pain), but you can customize it to your liking.
+_**NOTE:** To use this UI properly, you will need to enable the Lovelace YAML mode in your configuration.yaml and create the ui-lovelace.yaml file. See instructions on the [Home Assistant site](https://www.home-assistant.io/lovelace/yaml-mode/). It is a lot more work (and pain), but you can customize it to your liking._
 
-SECOND NOTE: This configuration was created in February 2019 with Home Assistant 0.84.5 and old versions of custom Lovelace cards. There have been many breaking changes to Home Assistant components and cards since then and this configuration example may not work properly with the latest version of Home Assistant without a few configuration changes. It is still a good learning resource though.
+_**SECOND NOTE:** This configuration was created in February 2019 with Home Assistant 0.84.5 and old versions of custom Lovelace cards. There have been many breaking changes to Home Assistant components and cards since then and this configuration example may not work properly with the latest version of Home Assistant without a few configuration changes. It is still a good learning resource though._
 
 [**Readme**](README.md) |
 [Home View](home.md) |  [Media](media.md) | [Rooms](rooms.md) | [Cameras](cameras.md) | [Comics](comics.md) | [System](system.md) | [Floor Plan](floorplan.md) 

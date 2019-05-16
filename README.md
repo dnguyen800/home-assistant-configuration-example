@@ -1,6 +1,6 @@
-# Dwinn's Example Home Assistant Configuration Files 
+# Dwinnn's Example Home Assistant Configuration Files 
 
-Here is a set of configuration files that represents my current [Home Assistant](https://home-assistant.io) instance. If you have seen my video demonstration on [Youtube](https://www.youtube.com/watch?v=Dw4JFLhTVN8), I will explain how I achieved the current look of the UI, including the Lovelace cards, custom components, and Hass.io addons I used. Feel free to send any questions to dwinnnspeaks@gmail.com
+Here is a set of configuration files that represents my current [Home Assistant](https://home-assistant.io) instance. If you have seen my video demonstration on [Youtube](https://www.youtube.com/watch?v=Dw4JFLhTVN8), I will explain how I achieved the current look of the UI, including the Lovelace cards, custom components, and Hass.io addons I used. Feel free to send any questions to dwinnnspeaks@gmail.com or visit my home automation website @ [dwinnn.com](https://dwinnn.com).
 
 NOTE: To use this UI properly, you will need to enable the Lovelace YAML mode in your configuration.yaml and create the ui-lovelace.yaml file. See instructions on the [Home Assistant site](https://www.home-assistant.io/lovelace/yaml-mode/). It is a lot more work (and pain), but you can customize it to your liking.
 
@@ -45,3 +45,4 @@ NOTE: To use this UI properly, you will need to enable the Lovelace YAML mode in
 
 ## Credits
 - People ([ccostan](https://github.com/CCOSTAN/Home-AssistantConfig), [skalavala](https://github.com/skalavala/smarthome)) who shared their Home Assistant configurations, which I borrowed heavily from.
+- Visit my website [dwinnn.com](https://dwinnn.com) about home automation to keep in touch with my latest updates.
